@@ -1,7 +1,7 @@
 streamlit==1.38.0
 scikit-learn==1.5.1
 pandas==2.2.2
-numpy==1.26.4
+numpy==2.2.6
 matplotlib==3.9.0
 # Only needed to regenerate the model / other analysis scripts, not to run the app itself
 #optuna==3.6.1
