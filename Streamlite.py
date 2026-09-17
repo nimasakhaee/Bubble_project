@@ -54,7 +54,7 @@ class LogColumnScaler(BaseEstimator, TransformerMixin):
         return Xo
 
 
-PKL_PATH = r"G:\My Drive\NEU\research\research\Buble paper\Results\8- GUI\gradboost_bundle.pkl"
+PKL_PATH = "gradboost_bundle.pkl"
 
 # Optional friendlier labels for known outputs; anything not listed here just
 # falls back to its raw column name. Names/units confirmed from the actual
