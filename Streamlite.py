@@ -52,7 +52,7 @@ class LogColumnScaler(BaseEstimator, TransformerMixin):
         return Xo
 
 
-PKL_PATH = r"G:\My Drive\NEU\research\research\Buble paper\Results\8- GUI\gpr_bundle.pkl"
+PKL_PATH = "gpr_bundle.pkl"
 
 LABEL_MAP = {
     't_detach': 'Detachment time, t<sub>d</sub> (ms)',
