@@ -77,6 +77,9 @@ LABEL_MAP = {
 MEDIUM_RATIO_LIMIT = 2.0
 Z_95 = 1.96                       # 95 % predictive interval
 
+# Outputs hidden from the predictions table (still predicted by the model)
+HIDDEN_OUTPUTS = ['kL_detach', 'dNb_detach', 'Aint_end', 'AdCInt']
+
 
 def pretty_label(col_name):
     return LABEL_MAP.get(col_name, col_name)
@@ -248,7 +251,7 @@ if predict_clicked:
             unsafe_allow_html=True,
         )
 
-    table_targets = [c for c in target_cols if c != 't_detach']
+    table_targets = [c for c in target_cols if c != 't_detach' and c not in HIDDEN_OUTPUTS]
     cell = "padding:6px 10px; border-bottom:1px solid rgba(128,128,128,0.25);"
     head = "padding:6px 10px; border-bottom:2px solid rgba(128,128,128,0.4);"
     rows_html = "".join(
