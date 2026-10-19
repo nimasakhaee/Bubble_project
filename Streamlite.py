@@ -276,8 +276,7 @@ if predict_clicked:
     }
     icon, kind = tier_display[tier]
     getattr(st, kind)(
-        f"{icon} **{tier} confidence** — leverage = {h:.4f}, "
-        f"h* = {ad['h_star']:.4f}  (ratio = {ratio:.2f})"
+        f"{icon} **{tier} confidence**"
     )
     st.caption(f"Mean GPR predictive std (normalized space): {np.mean(std_n):.3f}. "
                "Larger values mean the inputs are far from the training data.")
