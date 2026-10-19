@@ -177,12 +177,6 @@ xscaler = model.named_steps['xscaler']
 # ══════════════════════════════════════════════════════════════════════════
 with st.sidebar:
     st.markdown("## 🫧 Bubble Dynamics")
-    st.markdown(f"**Model:** {bundle.get('model_name', 'GPR')}")
-    if 'test_r2_reference' in bundle:
-        st.markdown(f"Held-out test R² (80/20): `{bundle['test_r2_reference']:.4f}`")
-    st.markdown("---")
-    st.markdown("### Applicability domain")
-    st.markdown(f"h* = `{ad['h_star']:.4f}`")
     st.markdown(f"Training rows: `{ad['n_train']}`")
     st.markdown("---")
     st.markdown("### Inputs")
@@ -196,7 +190,6 @@ with st.sidebar:
         unsafe_allow_html=True,
     )
     with st.expander("Model details"):
-        st.markdown(f"Fitted kernel: `{bundle.get('fitted_kernel', 'n/a')}`")
         st.markdown(f"scikit-learn: `{bundle.get('sklearn_version', 'n/a')}`")
 
 # ══════════════════════════════════════════════════════════════════════════
@@ -255,27 +248,6 @@ if predict_clicked:
             unsafe_allow_html=True,
         )
 
-    st.markdown("### Reliability")
-    tier_display = {
-        "High": ("✅", "success"),
-        "Medium": ("⚠️", "warning"),
-        "Low": ("❌", "error"),
-    }
-    icon, kind = tier_display[tier]
-    getattr(st, kind)(
-        f"{icon} **{tier} confidence** — leverage = {h:.4f}, "
-        f"h* = {ad['h_star']:.4f}  (ratio = {ratio:.2f})"
-    )
-    st.caption(f"Mean GPR predictive std (normalized space): {np.mean(std_n):.3f}. "
-               "Larger values mean the inputs are far from the training data.")
-
-    if oor:
-        st.info(
-            "Note: these inputs fall outside their individual training "
-            f"ranges too: {', '.join(input_label(c) for c in oor)}"
-        )
-
-    st.markdown("### All outputs")
     table_targets = [c for c in target_cols if c != 't_detach']
     cell = "padding:6px 10px; border-bottom:1px solid rgba(128,128,128,0.25);"
     head = "padding:6px 10px; border-bottom:2px solid rgba(128,128,128,0.4);"
@@ -295,3 +267,23 @@ if predict_clicked:
         f"</tr></thead><tbody>{rows_html}</tbody></table>",
         unsafe_allow_html=True,
     )
+
+    st.markdown("### Reliability")
+    tier_display = {
+        "High": ("✅", "success"),
+        "Medium": ("⚠️", "warning"),
+        "Low": ("❌", "error"),
+    }
+    icon, kind = tier_display[tier]
+    getattr(st, kind)(
+        f"{icon} **{tier} confidence** — leverage = {h:.4f}, "
+        f"h* = {ad['h_star']:.4f}  (ratio = {ratio:.2f})"
+    )
+    st.caption(f"Mean GPR predictive std (normalized space): {np.mean(std_n):.3f}. "
+               "Larger values mean the inputs are far from the training data.")
+
+    if oor:
+        st.info(
+            "Note: these inputs fall outside their individual training "
+            f"ranges too: {', '.join(input_label(c) for c in oor)}"
+        )
