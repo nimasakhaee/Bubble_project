@@ -251,26 +251,6 @@ if predict_clicked:
             unsafe_allow_html=True,
         )
 
-    table_targets = [c for c in target_cols if c != 't_detach' and c not in HIDDEN_OUTPUTS]
-    cell = "padding:6px 10px; border-bottom:1px solid rgba(128,128,128,0.25);"
-    head = "padding:6px 10px; border-bottom:2px solid rgba(128,128,128,0.4);"
-    rows_html = "".join(
-        f"<tr><td style='{cell}'>{pretty_label(n)}</td>"
-        f"<td style='{cell} text-align:right;'>{pred_by_name[n]:.4g}</td>"
-        f"<td style='{cell} text-align:right; color:#888;'>"
-        f"{lo_by_name[n]:.4g} – {hi_by_name[n]:.4g}</td></tr>"
-        for n in table_targets
-    )
-    st.markdown(
-        f"<table style='width:100%; border-collapse:collapse;'>"
-        f"<thead><tr>"
-        f"<th style='text-align:left; {head}'>Output</th>"
-        f"<th style='text-align:right; {head}'>Value</th>"
-        f"<th style='text-align:right; {head}'>95 % interval</th>"
-        f"</tr></thead><tbody>{rows_html}</tbody></table>",
-        unsafe_allow_html=True,
-    )
-
     st.markdown("### Reliability")
     tier_display = {
         "High": ("✅", "success"),
@@ -290,3 +270,23 @@ if predict_clicked:
             "Note: these inputs fall outside their individual training "
             f"ranges too: {', '.join(input_label(c) for c in oor)}"
         )
+
+    table_targets = [c for c in target_cols if c != 't_detach' and c not in HIDDEN_OUTPUTS]
+    cell = "padding:6px 10px; border-bottom:1px solid rgba(128,128,128,0.25);"
+    head = "padding:6px 10px; border-bottom:2px solid rgba(128,128,128,0.4);"
+    rows_html = "".join(
+        f"<tr><td style='{cell}'>{pretty_label(n)}</td>"
+        f"<td style='{cell} text-align:right;'>{pred_by_name[n]:.4g}</td>"
+        f"<td style='{cell} text-align:right; color:#888;'>"
+        f"{lo_by_name[n]:.4g} – {hi_by_name[n]:.4g}</td></tr>"
+        for n in table_targets
+    )
+    st.markdown(
+        f"<table style='width:100%; border-collapse:collapse;'>"
+        f"<thead><tr>"
+        f"<th style='text-align:left; {head}'>Output</th>"
+        f"<th style='text-align:right; {head}'>Value</th>"
+        f"<th style='text-align:right; {head}'>95 % interval</th>"
+        f"</tr></thead><tbody>{rows_html}</tbody></table>",
+        unsafe_allow_html=True,
+    )
